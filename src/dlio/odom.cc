@@ -34,7 +34,7 @@ dlio::OdomNode::OdomNode() : Node("dlio_odom_node") {
   this->lidar_cb_group = this->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
   auto lidar_sub_opt = rclcpp::SubscriptionOptions();
   lidar_sub_opt.callback_group = this->lidar_cb_group;
-  this->lidar_sub = this->create_subscription<sensor_msgs::msg::PointCloud2>("pointcloud", 1,
+  this->lidar_sub = this->create_subscription<sensor_msgs::msg::PointCloud2>("pointcloud", rclcpp::SensorDataQoS(),
       std::bind(&dlio::OdomNode::callbackPointCloud, this, std::placeholders::_1), lidar_sub_opt);
 
   this->imu_cb_group = this->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
@@ -397,7 +397,7 @@ void dlio::OdomNode::publishToROS(pcl::PointCloud<PointType>::ConstPtr published
   transformStamped.transform.rotation.y = this->state.q.y();
   transformStamped.transform.rotation.z = this->state.q.z();
 
-  br->sendTransform(transformStamped);
+  // br->sendTransform(transformStamped);
 
   // transform: baselink to imu
   transformStamped.header.stamp = this->imu_stamp;
