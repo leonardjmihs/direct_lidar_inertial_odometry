@@ -397,7 +397,7 @@ void dlio::OdomNode::publishToROS(pcl::PointCloud<PointType>::ConstPtr published
   transformStamped.transform.rotation.y = this->state.q.y();
   transformStamped.transform.rotation.z = this->state.q.z();
 
-  // br->sendTransform(transformStamped);
+  br->sendTransform(transformStamped);
 
   // transform: baselink to imu
   transformStamped.header.stamp = this->imu_stamp;
